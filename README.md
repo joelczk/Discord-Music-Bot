@@ -4,7 +4,7 @@ Music bot for discord users\
 **Requirements**\
 Do note that user has to install FFPMEG for this code to work together with youtube-dl\
 Do note that user has to generate his/her token from discord developer portal\
-**Commands**\
+**Commands**
 ```
 .join: Calls for bot to enter the voice channel that user is in
 .leave: Calls for bot to leave channel that it is in
