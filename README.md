@@ -17,4 +17,5 @@ os.path.isfile() --> os.path.isfile(<path>)
 .skip: skip the next song in list
 .clear: clear all queued songs
 .list: List all the songs on queue
+.stop : Stop song from playing and clears the queue
 ```
