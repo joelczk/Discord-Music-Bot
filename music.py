@@ -14,6 +14,12 @@ client = commands.Bot(command_prefix = '.')
 
 song_list = {}
 
+def get_title(link):
+    content = requests.get(link)
+    soup = bs(content.content, "html.parser")
+    title = soup.find("span", attrs={"class": "watch-title"}).text.strip()
+    return title
+
 def check_url(url):
     link = "https://www.youtube.com/results?search_query=" + str(url)
     page = requests.get(link).content
@@ -102,17 +108,19 @@ async def play(ctx):
                 # print(song_list)
                 # print('There are users in VC')
                 if voice.is_playing():
-                    await ctx.send ('Bot is currently playing music', delete_after = 5)
+                    await ctx.send ('Bot is currently playing music', delete_after = 1)
                 else:
-                    send_message1 = "Preparing to play `" + str(song_list[channel.id][0]) + "` ..."
-                    await ctx.send('Preparing to play '+ str(song_list[channel.id][0]) + ' ...')
                     url = "https://" + str(check_url(song_list[channel.id][0]))
+                    await ctx.send('Preparing to play `'+ str(get_title(url)) + '` ...')
                     rename = (str(song_list[channel.id][0]) + ".mp3").replace(" ","")
                     song_there = os.path.isfile(rename)
                     if song_there == False:
-                        await ctx.send(str(song_list[channel.id][0]) + " not found on OS", delete_after = 5)
+                        print('song_there loop')
+                        await ctx.send(str(get_title(url)) + " not found on OS", delete_after = 5)
+                        print('message sent')
                         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                             ydl.download([url])
+                            print('song downloaded')
                             for file in os.listdir("./"):
                                 if file.endswith(".mp3"):
                                     name = file
@@ -120,10 +128,10 @@ async def play(ctx):
                                         os.rename(file, rename)
                                     except:
                                         continue
-                            send_message2 = "`" + str(song_list[channel.id][0] + "` downloaded. Waiting to play song...")
+                            send_message2 = ("`" + str(get_title(url)) + "` downloaded. Waiting to play song...")
                             await ctx.send(send_message2)
                     else:
-                        await ctx.send(str(song_list[channel.id][0]) + " found on OS", delete_after = 5)
+                        await ctx.send(str(get_title(url)) + " found on OS", delete_after = 5)
                     player = discord.FFmpegPCMAudio(rename)
                     voice.play(player)
                     voice.source = discord.PCMVolumeTransformer(voice.source)
@@ -137,17 +145,13 @@ async def play(ctx):
             break
 
 @client.command(pass_context = True)
-async def list(ctx):
+async def stop(ctx):
     channel = ctx.message.guild
-    try:
-        store = ''
-        for i in song_list[channel.id]:
-            store += i + '\n'
-        await ctx.send(store)
-        await ctx.send("List is not empty")
-    except:
-        await ctx.send("There is no songs on queue")
-
+    song_list[channel.id] = []
+    voice = get(client.voice_clients, guild = ctx.guild)
+    voice.stop()
+    print('Bot stopped')
+    
 @client.command(pass_context = True)
 async def skip(ctx):
     channel = ctx.message.guild
@@ -164,6 +168,20 @@ async def clear(ctx):
     await ctx.send("Queue purged")
     return song_list
 
+@client.command(pass_context = True)
+async def list(ctx):
+    channel = ctx.message.guild
+    count = 1
+    try:
+        embed = discord.Embed(color=0x00ff00)
+        for i in song_list[channel.id]:
+            link = "HTTPS://" + str(check_url(i))
+            song_name = get_title(link)
+            print_query = 'Song ' + str(count)
+            embed.add_field(name = print_query, value =song_name, inline=False)
+            count += 1
+    except:
+        embed = discord.Embed(description="There are currently no songs being queued", color=0x00ff00)
+    await ctx.send(embed=embed)
 
-#PLEASE GET YOUR OWN TOKEN FROM DISCORD DEVELOPER PORTAL
-client.run(<TOKEN>)
+client.run("<token>")
