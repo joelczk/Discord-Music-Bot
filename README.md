@@ -2,6 +2,7 @@
 **Description**\
 Music bot for discord users\
 **Requirements**\
+Do not that the song bot can only play songs with English title\
 Do note that user has to install FFPMEG for this code to work together with youtube-dl\
 Do note that user has to generate his/her token from discord developer portal\
 File locations where songs are stored can be changed via the following command:\
@@ -19,3 +20,5 @@ os.path.isfile() --> os.path.isfile(<path>)
 .list: List all the songs on queue
 .stop : Stop song from playing and clears the queue
 ```
+**Acknowledgements**
+The songs are streamed from (c) Youtube
