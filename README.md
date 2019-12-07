@@ -20,5 +20,5 @@ os.path.isfile() --> os.path.isfile(<path>)
 .list: List all the songs on queue
 .stop : Stop song from playing and clears the queue
 ```
-**Acknowledgements**
+**Acknowledgements**\
 The songs are streamed from ©Youtube
