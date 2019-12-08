@@ -1,7 +1,8 @@
 # Discord Music Bot
 **Description**\
 Music bot for discord users\
-Coded in Python\
+Coded in Python
+Libraries used can be found in requirements.txt
 
 **Requirements**\
 Do not that the song bot can only play songs with English title\
