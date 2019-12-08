@@ -21,7 +21,7 @@ os.path.isfile() --> os.path.isfile(<path>)
 .stop : Stop song from playing and clears the queue
 ```
 
-**Installation**\
+**Installation**
 ```
 RUN git clone https://github.com/joelczk/Discord-Music-Bot.git in your terminal
 NOTE: Make sure that yur FFMPEG environment variables is set up properly
