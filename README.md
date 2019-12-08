@@ -5,7 +5,7 @@ Music bot for discord users\
 Do not that the song bot can only play songs with English title\
 Do note that user has to install FFPMEG for this code to work together with youtube-dl\
 Do note that user has to generate his/her token from discord developer portal\
-File locations where songs are stored can be changed via the following command:\
+File locations where songs are stored can be changed via the following command:
 ```
 os.path.isfile() --> os.path.isfile(<path>)
 ```
@@ -27,4 +27,4 @@ RUN git clone https://github.com/joelczk/Discord-Music-Bot.git in your terminal
 NOTE: Make sure that yur FFMPEG environment variables is set up properly
 ```
 **Acknowledgements**\
-The songs are streamed from ©Youtube
+The songs are streamed and donwloaded from ©Youtube
