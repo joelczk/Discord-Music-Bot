@@ -20,5 +20,11 @@ os.path.isfile() --> os.path.isfile(<path>)
 .list: List all the songs on queue
 .stop : Stop song from playing and clears the queue
 ```
+
+**Installation**\
+```
+RUN git clone https://github.com/joelczk/Discord-Music-Bot.git in your terminal
+NOTE: Make sure that yur FFMPEG environment variables is set up properly
+```
 **Acknowledgements**\
 The songs are streamed from ©Youtube
