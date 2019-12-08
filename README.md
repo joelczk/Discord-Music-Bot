@@ -1,6 +1,8 @@
-# Discord-Music-Bot
+# Discord Music Bot
 **Description**\
 Music bot for discord users\
+Coded in Python\
+
 **Requirements**\
 Do not that the song bot can only play songs with English title\
 Do note that user has to install FFPMEG for this code to work together with youtube-dl\
