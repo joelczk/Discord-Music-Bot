@@ -187,4 +187,4 @@ async def list(ctx):
         embed = discord.Embed(description="There are currently no songs being queued", color=0x00ff00)
     await ctx.send(embed=embed)
 
-client.run("NjUxMTg4ODI4NTA5MzA2ODgy.XeWQ9A.ek-cyKyG-tVVClOIS4spx8niCRI")
+client.run(<token>)
