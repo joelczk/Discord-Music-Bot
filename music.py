@@ -13,12 +13,49 @@ import os
 client = commands.Bot(command_prefix = '.')
 
 song_list = {}
+player_info = {}
+
+
+def play_song(channel,voice,file_name):
+    try:
+        player = discord.FFmpegPCMAudio(file_name)
+        voice.play(player)
+        voice.source.volume = 1.00
+        song_list[channel.id].pop(0)
+    except:
+        print('Song reached end of list')
 
 def get_title(link):
     content = requests.get(link)
     soup = bs(content.content, "html.parser")
     title = soup.find("span", attrs={"class": "watch-title"}).text.strip()
     return title
+
+def download_file(rename, url):
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+    }
+    song_there = os.path.isfile(rename)
+    if song_there == False:
+        print('Song not found on OS')
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+            print('Song downloaded')
+            for file in os.listdir("./"):
+                if file.endswith(".mp3"):
+                    name = file
+                    try:
+                        os.rename(file,rename)
+                        print('File successfully renamed')
+                    except:
+                        print('File renaming failed for file: ' + str(name))
+    else:
+        print('Song found on OS')
 
 def check_url(url):
     link = "https://www.youtube.com/results?search_query=" + str(url)
@@ -70,79 +107,42 @@ async def leave(ctx):
 @client.command(pass_context = True)
 async def queue(ctx):
     channel = ctx.message.guild
-    url = ctx.message.content
-    url = url[7:]
-    link = check_url(url)
-    if link != False:
-        link = "HTTPS://" + str(check_url(url))
-        content = requests.get(link)
-        soup = bs(content.content, "html.parser")
-        title = soup.find("span", attrs={"class": "watch-title"}).text.strip()
-        if channel.id not in song_list.keys():
-            store = [url]
-            song_list[channel.id] = store
-        else:
-            store = song_list[channel.id]
-            store.append(url)
-            song_list[channel.id] = store
-        send_message = "`" + str(title) + "` is queued."
-        await ctx.send(send_message)
-    else:
-        ctx.send("Search query cannot be found. Please Try again!")
+    search_query = ctx.message.content
+    search_query = search_query[7:]
+    print(search_query)
+    url = check_url(search_query)
+    url = "https://www." + str(url)
+    print(url)
+    title = get_title(url)
+    title = title + ".mp3"
+    print(title)
+    download_file(title,url)
+    try:
+        check = song_list[channel.id]
+        song_list[channel.id].append(title)
+    except:
+        song_list[channel.id] = [title]
+    message = "`" + str(title) + "` has been queued"
+    await ctx.send(message)
 
 @client.command(pass_context = True)
 async def play(ctx):
     channel = ctx.message.guild
-    ydl_opts = {
-        'format': 'bestaudio/best',
-        'postprocessors': [{
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
-            'preferredquality': '192',
-        }],
-    }
     voice = get(client.voice_clients, guild = ctx.guild)
-    while True:
-        try:
-            if voice and voice.is_connected():
-                # print(song_list)
-                # print('There are users in VC')
-                if voice.is_playing():
-                    await ctx.send ('Bot is currently playing music', delete_after = 1)
-                else:
-                    url = "https://" + str(check_url(song_list[channel.id][0]))
-                    await ctx.send('Preparing to play `'+ str(get_title(url)) + '` ...')
-                    rename = (str(song_list[channel.id][0]) + ".mp3").replace(" ","")
-                    song_there = os.path.isfile(rename)
-                    if song_there == False:
-                        print('song_there loop')
-                        await ctx.send(str(get_title(url)) + " not found on OS", delete_after = 5)
-                        print('message sent')
-                        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                            ydl.download([url])
-                            print('song downloaded')
-                            for file in os.listdir("./"):
-                                if file.endswith(".mp3"):
-                                    name = file
-                                    try:
-                                        os.rename(file, rename)
-                                    except:
-                                        continue
-                            send_message2 = ("`" + str(get_title(url)) + "` downloaded. Waiting to play song...")
-                            await ctx.send(send_message2)
-                    else:
-                        await ctx.send(str(get_title(url)) + " found on OS", delete_after = 5)
-                    player = discord.FFmpegPCMAudio(rename)
-                    voice.play(player)
-                    voice.source = discord.PCMVolumeTransformer(voice.source)
-                    voice.source.volume = 1.00
-                    song_list[channel.id].pop(0)
+    if voice and voice.is_connected():
+        await ctx.send('Bot in channel!Preparing to play music', delete_after = 2)
+        title = ''
+        while True:
+            if voice.is_playing():
+                await ctx.send("Bot is currently playing `" + title + "`", delete_after = 2)
             else:
-                print('There are no users in VC')
-                break
-        except:
-            await ctx.send('There are no more songs queued')
-            break
+                print('Bot is not playing any music')
+                title = str(song_list[channel.id][0])
+                play_song(channel,voice,song_list[channel.id][0])
+                print('title is: ', title)
+                print(song_list)
+    else:
+        await ctx.send('Bot not in Channel. Please allow bot to join channel...', delete_after = 2)
 
 @client.command(pass_context = True)
 async def stop(ctx):
@@ -150,7 +150,7 @@ async def stop(ctx):
     song_list[channel.id] = []
     voice = get(client.voice_clients, guild = ctx.guild)
     voice.stop()
-    print('Bot stopped')
+    await ctx.send('Bot has been stopped', delete_after = 2)
     
 @client.command(pass_context = True)
 async def skip(ctx):
@@ -173,15 +173,18 @@ async def list(ctx):
     channel = ctx.message.guild
     count = 1
     try:
-        embed = discord.Embed(color=0x00ff00)
-        for i in song_list[channel.id]:
-            link = "HTTPS://" + str(check_url(i))
-            song_name = get_title(link)
-            print_query = 'Song ' + str(count)
-            embed.add_field(name = print_query, value =song_name, inline=False)
-            count += 1
+        if song_list[channel.id] is None:
+            embed = discord.Embed(description="There are currently no songs being queued", color=0x00ff00)
+        else:
+            embed = discord.Embed(color=0x00ff00)
+            for i in song_list[channel.id]:
+                link = "HTTPS://" + str(check_url(i))
+                song_name = get_title(link)
+                print_query = 'Song ' + str(count)
+                embed.add_field(name = print_query, value =song_name, inline=False)
+                count += 1
     except:
         embed = discord.Embed(description="There are currently no songs being queued", color=0x00ff00)
     await ctx.send(embed=embed)
 
-client.run("<token>")
+client.run("NjUxMTg4ODI4NTA5MzA2ODgy.XeWQ9A.ek-cyKyG-tVVClOIS4spx8niCRI")
