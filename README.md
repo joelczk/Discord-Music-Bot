@@ -36,6 +36,8 @@ joelczk@home/<directory-name>:~$ python3 music.py
 
 4. The music bot is now ready to be deployed in `Discord`
 
+Alternatively, the bot could be hosted on other sites and the bots can be run anytime.
+
 ## Bot Commands
 - `.join`: Calls for the bot to enter the voice channel that the user is in
 - `.leave`: Calls for bot to leave channel that it is currently in
