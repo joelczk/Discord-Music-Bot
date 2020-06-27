@@ -1,33 +1,10 @@
 # Discord Music Bot
-**Description**\
-Music bot for discord users\
-Coded in Python\
-Libraries used can be found in requirements.txt
 
-**Requirements**\
-Do not that the song bot can only play songs with English title\
-Do note that user has to install FFPMEG for this code to work together with youtube-dl\
-Do note that user has to generate his/her token from discord developer portal\
-File locations where songs are stored can be changed via the following command:
-```
-os.path.isfile() --> os.path.isfile(<path>)
-```
-**Commands**
-```
-.join: Calls for bot to enter the voice channel that user is in
-.leave: Calls for bot to leave channel that it is in
-.queue: Queue songs for bot to play
-.play: Calls for bot to start playing song
-.skip: skip the next song in list
-.clear: clear all queued songs
-.list: List all the songs on queue
-.stop : Stop song from playing and clears the queue
-```
+## Introduction
+This is a bot created to play songs on the `Discord` platform. Click[here](https://discord.com/) if you would like to learn more about `Discord`.
 
-**Installation**
-```
-RUN git clone https://github.com/joelczk/Discord-Music-Bot.git in your terminal
-NOTE: Make sure that yur FFMPEG environment variables is set up properly
-```
-**Acknowledgements**\
-The songs are streamed and donwloaded from ©Youtube
+## Bot Requirements:
+1. This bot can only play and queue songs with English titles. 
+2. The user has to install `FFMPEG` for the bot to work together with `Youtube`. Click [here](https://ffmpeg.org/download.html) if you would like to learn more about how to download `FFMPEG`.
+3. The user has to generate his own discord token from the discord developer token. Click [here] (https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token) for steps to create your own discord token.
+
