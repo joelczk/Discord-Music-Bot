@@ -23,15 +23,15 @@ Follow the guide [here](https://github.com/reactiflux/discord-irc/wiki/Creating-
 ## Running the bot
 1. Git clone the bot into your desired directory
 ```console
-joelczk@home/<directorn-name>:~$ git clone https://github.com/joelczk/Discord-Music-Bot
+joelczk@home/<directory-name>:~$ git clone https://github.com/joelczk/Discord-Music-Bot
 ```
 2. Install required python modules
 ```console
-joelczk@home/<directorn-name>:~$ pip install > requirements.txt
+joelczk@home/<directory-name>:~$ pip install > requirements.txt
 ```
 3. Run the bot
 ```console
-joelczk@home/<directorn-name>:~$ python3 music.py
+joelczk@home/<directory-name>:~$ python3 music.py
 ```
 
 4. The music bot is now ready to be deployed in `Discord`
