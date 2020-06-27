@@ -19,3 +19,32 @@ Before creating a discord token, please make sure that you have a working discor
 If you do not have a `DISCORD` account, you can sign up for one [here](https://discord.com/register).
 
 Follow the guide [here](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token) on how to set up your own discord token.
+
+## Running the bot
+1. Git clone the bot into your desired directory
+```console
+joelczk@home/<directorn-name>:~$ git clone https://github.com/joelczk/Discord-Music-Bot
+```
+2. Install required python modules
+```console
+joelczk@home/<directorn-name>:~$ pip install > requirements.txt
+```
+3. Run the bot
+```console
+joelczk@home/<directorn-name>:~$ python3 music.py
+```
+
+4. The music bot is now ready to be deployed in `Discord`
+
+## Bot Commands
+- `.join`: Calls for the bot to enter the voice channel that the user is in
+- `.leave`: Calls for bot to leave channel that it is currently in
+- `.queue`: Queue songs for the bot to play
+- `.play` : Calls for the bot to start playing songs
+- `.skip` : Calls for the bot to skip the next song in its queued list
+- `.clear` : Clears all queued songs
+- `.list` : List all queued songs
+- `.stop`: Stops songs from playing and clears the queued list
+
+## Sources
+All songs that are used are streamed and downloaded from `Youtube`. All credits and acknowledgements for the songs goes to the song creators.
