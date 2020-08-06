@@ -1,7 +1,7 @@
 # Discord Music Bot
 
 ## Introduction
-This is a bot created to play songs on the `Discord` platform. Click[here](https://discord.com/) if you would like to learn more about `Discord`.
+This is a bot created to play songs on the `Discord` platform. Click [here](https://discord.com/) if you would like to learn more about `Discord`.
 
 ## Bot Requirements:
 1. FFMPEG
