@@ -15,7 +15,7 @@ requests==2.22.0
 soupsieve==1.9.5
 typing-extensions==3.7.4.1
 urllib3==1.26.5
-websockets==6.0
+websockets==9.1
 wincertstore==0.2
 yarl==1.4.1
 youtube-dl==2019.11.28
